@@ -8,7 +8,7 @@
 # Copyright (c) 2017 Soramitsu,Co.,Ltd.
 # All Rights Reserved.
 #-----------------------------------------------------------------------
-FROM armhf/debian
+FROM armhf/debian:jessie
 
 RUN sed -i 's/jessie/stretch/' /etc/apt/sources.list
 
