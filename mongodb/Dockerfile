@@ -3,16 +3,14 @@
 #
 # build : docker build -t tkyonezu/mongodb .
 #
-# Copyright (c) 2017 Soramitsu,Co.,Ltd.
+# Copyright (c) 2017 Takeshi Yonezu
 # All Rights Reserved.
 #-----------------------------------------------------------------------
 FROM armhf/debian
 
-MAINTAINER Takeshi Yonezu <yonezu@soramitsu.co.jp>
+MAINTAINER Takeshi Yonezu <tkyonezu@gmail.com>
 
-LABEL Vendor="Soramitsu,Co.,Ltd." \
-      License="Apache License, Version 2.0" \
-      Build="docker build -t tkyonezu/mongodb ." \
+LABEL Build="docker build -t tkyonezu/mongodb ." \
       Run="docker run -d --name mongodb -p 27017:27017 tkyonezu/mongodb"
 
 RUN apt update && apt -y upgrade && \
