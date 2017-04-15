@@ -5,7 +5,7 @@
 #
 # build : docker build -t tkyonezu/debian .
 #
-# Copyright (c) 2017 Soramitsu,Co.,Ltd.
+# Copyright (c) 2017 Takeshi Yonezu
 # All Rights Reserved.
 #-----------------------------------------------------------------------
 FROM armhf/debian:jessie
