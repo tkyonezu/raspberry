@@ -20,27 +20,29 @@ error() {
   exit 1
 }
 
-if [ $# -lt 1 ]; then
-  error "Usage: $0 hostname"
+if [ $# -lt 2 ]; then
+  error "Usage: $0 hostname user"
 fi
+
+NEW_HOSTNAME=$1
+NEW_USER=$2
 
 #
 # Change Hostname
 #
 logmsg "Change Hostname"
 
-NEW_HOSTNAME=$1
 CURRENT_HOSTNAME=$(cat /etc/hostname | tr -d " \t\n\r")
 
 sed -i "s/127.0.1.1.*${CURRENT_HOSTNAME}/127.0.1.1\t${NEW_HOSTNAME}/g" /etc/hosts
-cat ${NEW_HOSTNAME} >/etc/hostname
+echo ${NEW_HOSTNAME} >/etc/hostname
 
 # Change Keyboard
 logmsg "Change Keyboard (Japanese)"
 
 sed -i -e 's/^XKBMODEL=.*/XKBMODEL="pc105"' \
   -e 's/^XKBLAYOUT=.*/XKBLAYOUT="jp"' \
-  -e 's/^XKBOPTIONS=.*/XKBOPTIONS="terminate:ctrl_alt_bksp" \
+  -e 's/^XKBOPTIONS=.*/XKBOPTIONS="terminate:ctrl_alt_bksp"' \
   /etc/default/keyboard
 
 #
@@ -48,16 +50,27 @@ sed -i -e 's/^XKBMODEL=.*/XKBMODEL="pc105"' \
 #
 logmsg "Change Locale (Japanese)"
 
-sed -i -e 's/^LANG=.*/LANG=ja_JP.UTF-8/' \
-  /etc/default/locale
+DEBLANGUAGE="ja_JP.UTF-8"
+
+rm /etc/locale.gen
+
+dpkg-reconfigure -f noninteractive locales
+update-locale LANG="$DEBLANGUAGE"
+
+cat << EOF | debconf-set-selections
+locales   locales/default_environment_locale select       $DEBLANGUAGE
+EOF
+
+## sed -i -e 's/^LANG=.*/LANG=ja_JP.UTF-8/' /etc/default/locale
 
 # Change Timezone
 logmsg "Change Timezone (Asia/Tokyo)"
 
 echo "Asia/Tokyo" > /etc/timezone
 
-# ln -s /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 dpkg-reconfigure --frontend noninteractive tzdata
+
+## ln -s /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 
 #
 # Japanese InputMethod
@@ -101,6 +114,8 @@ systemctl start ssh.service
 #
 # Install xrdp
 #
+logmsg "Install xrdp"
+
 apt -y install xrdp
 
 # If you have some trouble to connect with RDP, re-install xrdp.
@@ -114,5 +129,24 @@ apt -y install xrdp
 #
 # Install Software Keyboard
 #
+
+#
+# Autologin
+#
+logmsg "Autologin user(${NEW_USER})"
+
+sed -i "s/^autologin-user=.*/autologin-user=${NEW_USER}/" \
+  /etc/lightdm/lightdm.conf
+
+sed -i "s|^ExecStart=.*|ExecStart=^/sbin/agetty --autologin ${NEW_USER} --noclear %I \$TERM|" \
+  /etc/systemd/system/autologin@.service
+
+#
+# Chenage NTP server
+#
+logmsg "Change NTP server"
+
+sed -i -e '/^server 3/apool ntp.nict.jp iburst' \
+  -e 's/^server [0-9]/## &/' /etc/ntp.conf
 
 exit 0
