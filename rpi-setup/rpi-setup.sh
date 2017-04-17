@@ -131,6 +131,25 @@ apt -y install xrdp
 #
 
 #
+# Setup User
+#
+logmsg "Setup User (${NEW_USER})"
+
+mv /home/pi /home/${NEW_USER}
+
+sed -i "s/^pi/${NEW_USER}/" /etc/passwd
+sed -i "s/^pi/${NEW_USER}/" /etc/shadow
+sed -i "s/:pi/:${NEW_USER}/" /etc/group
+
+cd /home/${NEW_USER}
+mkdir .ssh
+chown 1000:1000 .ssh
+chmod 700 .ssh
+touch .ssh/authorized_keys
+chown 1000:1000 .ssh/authorized_keys
+chmod 600 .ssh/authorized_keys
+
+#
 # Autologin
 #
 logmsg "Autologin user(${NEW_USER})"
@@ -148,5 +167,30 @@ logmsg "Change NTP server"
 
 sed -i -e '/^server 3/apool ntp.nict.jp iburst' \
   -e 's/^server [0-9]/## &/' /etc/ntp.conf
+
+#
+# Install Docker
+#
+logmsg "Install Docker"
+
+apt install -y apt-transport-https ca-certificates curl \
+  software-properties-common
+
+cat <<EOF >/etc/apt/sources.list.d/docker.list
+deb [arch=armhf] https://apt.dockerproject.org/repo raspbian-jessie main
+#deb [arch=armhf] https://apt.dockerproject.org/repo debian-stretch main
+EOF
+
+curl -fsSL https://apt.dockerproject.org/gpg | apt-key add -
+
+apt update
+
+apt install -y docker-engine
+
+#
+# Upgrade Packages
+#
+apt update
+apt upgrade -y
 
 exit 0
