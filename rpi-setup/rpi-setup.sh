@@ -205,6 +205,29 @@ update-alternatives --install /usr/bin/cc  cc  /usr/bin/gcc-6 20
 sed -i '/^deb /s/stretch/jessie/' /etc/apt/sources.list
 
 #
+# Install Go
+#
+VERSION=1.8.1
+OS=linux
+ARCH=armv6l
+
+cd /var/tmp
+
+wget -N https://storage.googleapis.com/golang/go$VERSION.$OS-$ARCH.tar.gz
+
+tar -C /usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz
+
+rm go$VERSION.$OS-$ARCH.tar.gz
+
+cat >>~/.bashrc <<EOF
+export GOPATH=/usr/local
+export GOROOT=/usr/local/go
+export PATH=\$PATH:\$GOROOT/bin
+
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-armhf
+EOF
+
+#
 # Upgrade Packages
 #
 logmsg "Update Packages"
