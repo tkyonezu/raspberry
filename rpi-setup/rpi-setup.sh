@@ -188,8 +188,27 @@ apt update
 apt install -y docker-engine
 
 #
+# Install gcc-6
+#
+logmsg "Install gcc-6"
+
+sed -i '/^deb /s/jessie/stretch/' /etc/apt/sources.list
+apt update
+
+apt install -y g++-6 gcc-6 default-jdk
+
+update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 20
+update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++-6 20
+update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 20
+update-alternatives --install /usr/bin/cc  cc  /usr/bin/gcc-6 20
+
+sed -i '/^deb /s/stretch/jessie/' /etc/apt/sources.list
+
+#
 # Upgrade Packages
 #
+logmsg "Update Packages"
+
 apt update
 apt upgrade -y
 
