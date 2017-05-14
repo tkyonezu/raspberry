@@ -66,9 +66,7 @@ EOF
 # Change Timezone
 logmsg "Change Timezone (Asia/Tokyo)"
 
-echo "Asia/Tokyo" > /etc/timezone
-
-dpkg-reconfigure --frontend noninteractive tzdata
+timedatectl set-timezone Asia/Tokyo
 
 ## ln -s /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 
