@@ -224,6 +224,11 @@ chmod 600 .ssh/authorized_keys
 ## EOF
 
 #
+# Update Firmware
+#
+rpi-update
+
+#
 # Upgrade Packages
 #
 logmsg "Update Packages"
