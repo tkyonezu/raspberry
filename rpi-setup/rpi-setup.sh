@@ -40,9 +40,9 @@ echo ${NEW_HOSTNAME} >/etc/hostname
 # Change Keyboard
 logmsg "Change Keyboard (Japanese)"
 
-sed -i -e 's/^XKBMODEL=.*/XKBMODEL="pc105"' \
-  -e 's/^XKBLAYOUT=.*/XKBLAYOUT="jp"' \
-  -e 's/^XKBOPTIONS=.*/XKBOPTIONS="terminate:ctrl_alt_bksp"' \
+sed -i -e 's/^XKBMODEL=.*/XKBMODEL="pc105"/' \
+  -e 's/^XKBLAYOUT=.*/XKBLAYOUT="jp"/' \
+  -e 's/^XKBOPTIONS=.*/XKBOPTIONS="terminate:ctrl_alt_bksp"/' \
   /etc/default/keyboard
 
 #
@@ -52,14 +52,14 @@ logmsg "Change Locale (Japanese)"
 
 DEBLANGUAGE="ja_JP.UTF-8"
 
+cat << EOF | debconf-set-selections
+locales   locales/locales_to_be_generated multiselect     $DEBLANGUAGE UTF-8
+EOF
+
 rm /etc/locale.gen
 
 dpkg-reconfigure -f noninteractive locales
 update-locale LANG="$DEBLANGUAGE"
-
-cat << EOF | debconf-set-selections
-locales   locales/default_environment_locale select       $DEBLANGUAGE
-EOF
 
 ## sed -i -e 's/^LANG=.*/LANG=ja_JP.UTF-8/' /etc/default/locale
 
@@ -86,7 +86,7 @@ apt install -y uim uim-anthy
 #
 logmsg "Change WiFi Country (Japan)"
 
-sed -i 's/^country=.*/country=JP/'
+sed -i 's/^country=.*/country=JP/' \
   /etc/wpa_supplicant/wpa_supplicant.conf
 
 #
@@ -102,31 +102,20 @@ if [[ "$swap" == "/var/swap" ]]; then
 fi
 
 #
+# Chenage NTP server
+#
+logmsg "Change NTP server"
+
+sed -i -e '/^server 3/apool ntp.nict.jp iburst' \
+  -e 's/^server [0-9]/## &/' /etc/ntp.conf
+
+#
 # Enable ssh
 #
 logmsg "Enable ssh daemon"
 
 systemctl enable ssh.service
 systemctl start ssh.service
-
-#
-# Install xrdp
-#
-logmsg "Install xrdp"
-
-apt -y install xrdp
-
-# If you have some trouble to connect with RDP, re-install xrdp.
-#
-# apt remove -y xrdp
-#
-# apt update
-# apt install -y tightvncserver
-# apt install -y xrdp
-
-#
-# Install Software Keyboard
-#
 
 #
 # Setup User
@@ -147,83 +136,92 @@ touch .ssh/authorized_keys
 chown 1000:1000 .ssh/authorized_keys
 chmod 600 .ssh/authorized_keys
 
-#
-# Autologin
-#
-logmsg "Autologin user(${NEW_USER})"
-
-sed -i "s/^autologin-user=.*/autologin-user=${NEW_USER}/" \
-  /etc/lightdm/lightdm.conf
-
-sed -i "s|^ExecStart=.*|ExecStart=^/sbin/agetty --autologin ${NEW_USER} --noclear %I \$TERM|" \
-  /etc/systemd/system/autologin@.service
-
-#
-# Chenage NTP server
-#
-logmsg "Change NTP server"
-
-sed -i -e '/^server 3/apool ntp.nict.jp iburst' \
-  -e 's/^server [0-9]/## &/' /etc/ntp.conf
-
-#
-# Install Docker
-#
-logmsg "Install Docker"
-
-apt install -y apt-transport-https ca-certificates curl \
-  software-properties-common
-
-cat <<EOF >/etc/apt/sources.list.d/docker.list
-deb [arch=armhf] https://apt.dockerproject.org/repo raspbian-jessie main
-#deb [arch=armhf] https://apt.dockerproject.org/repo debian-stretch main
-EOF
-
-curl -fsSL https://apt.dockerproject.org/gpg | apt-key add -
-
-apt update
-
-apt install -y docker-engine
-
-#
-# Install gcc-6
-#
-logmsg "Install gcc-6"
-
-sed -i '/^deb /s/jessie/stretch/' /etc/apt/sources.list
-apt update
-
-apt install -y g++-6 gcc-6 default-jdk
-
-update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 20
-update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++-6 20
-update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 20
-update-alternatives --install /usr/bin/cc  cc  /usr/bin/gcc-6 20
-
-sed -i '/^deb /s/stretch/jessie/' /etc/apt/sources.list
-
-#
-# Install Go
-#
-VERSION=1.8.1
-OS=linux
-ARCH=armv6l
-
-cd /var/tmp
-
-wget -N https://storage.googleapis.com/golang/go$VERSION.$OS-$ARCH.tar.gz
-
-tar -C /usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz
-
-rm go$VERSION.$OS-$ARCH.tar.gz
-
-cat >>~/.bashrc <<EOF
-export GOPATH=/usr/local
-export GOROOT=/usr/local/go
-export PATH=\$PATH:\$GOROOT/bin
-
-export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-armhf
-EOF
+## #
+## # Install xrdp
+## #
+## logmsg "Install xrdp"
+## 
+## apt -y install xrdp
+## 
+## # If you have some trouble to connect with RDP, re-install xrdp.
+## #
+## # apt remove -y xrdp
+## #
+## # apt update
+## # apt install -y tightvncserver
+## # apt install -y xrdp
+## 
+## #
+## # Install Software Keyboard
+## #
+## 
+## #
+## # Autologin
+## #
+## logmsg "Autologin user(${NEW_USER})"
+## 
+## sed -i "s/^autologin-user=.*/autologin-user=${NEW_USER}/" \
+##   /etc/lightdm/lightdm.conf
+## 
+## sed -i "s|^ExecStart=.*|ExecStart=^/sbin/agetty --autologin ${NEW_USER} --noclear %I \$TERM|" \
+##   /etc/systemd/system/autologin@.service
+## 
+## #
+## # Install Docker
+## #
+## logmsg "Install Docker"
+## 
+## apt install -y apt-transport-https ca-certificates curl \
+##   software-properties-common
+## 
+## cat <<EOF >/etc/apt/sources.list.d/docker.list
+## deb [arch=armhf] https://apt.dockerproject.org/repo raspbian-jessie main
+## #deb [arch=armhf] https://apt.dockerproject.org/repo debian-stretch main
+## EOF
+## 
+## curl -fsSL https://apt.dockerproject.org/gpg | apt-key add -
+## 
+## apt update
+## 
+## apt install -y docker-engine
+## 
+## #
+## # Install gcc-6
+## #
+## logmsg "Install gcc-6"
+## 
+## sed -i '/^deb /s/jessie/stretch/' /etc/apt/sources.list
+## apt update
+## 
+## apt install -y g++-6 gcc-6 default-jdk
+## 
+## update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-6 20
+## update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++-6 20
+## update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-6 20
+## update-alternatives --install /usr/bin/cc  cc  /usr/bin/gcc-6 20
+## 
+## sed -i '/^deb /s/stretch/jessie/' /etc/apt/sources.list
+## 
+## #
+## # Install Go
+## #
+## VERSION=1.8.1
+## OS=linux
+## ARCH=armv6l
+## 
+## cd /var/tmp
+## 
+## wget -N https://storage.googleapis.com/golang/go$VERSION.$OS-$ARCH.tar.gz
+## 
+## tar -C /usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz
+## 
+## rm go$VERSION.$OS-$ARCH.tar.gz
+## 
+## cat >>~/.bashrc <<EOF
+## export GOPATH=/usr/local
+## export GOROOT=/usr/local/go
+## export PATH=\$PATH:\$GOROOT/bin
+## EOF
 
 #
 # Upgrade Packages
