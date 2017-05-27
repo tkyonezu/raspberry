@@ -116,7 +116,6 @@ logmsg "Enable ssh daemon"
 
 systemctl enable ssh.service
 systemctl start ssh.service
-
 #
 # Setup User
 #
@@ -124,9 +123,9 @@ logmsg "Setup User (${NEW_USER})"
 
 mv /home/pi /home/${NEW_USER}
 
-sed -i "s/^pi/${NEW_USER}/" /etc/passwd
+sed -i "s/^pi/${NEW_USER}/g" /etc/passwd
 sed -i "s/^pi/${NEW_USER}/" /etc/shadow
-sed -i "s/:pi/:${NEW_USER}/" /etc/group
+sed -i -e "s/^pi:/${NEW_USER}:/" -e "s/:pi/:${NEW_USER}/" /etc/group
 
 cd /home/${NEW_USER}
 mkdir .ssh
@@ -135,6 +134,10 @@ chmod 700 .ssh
 touch .ssh/authorized_keys
 chown 1000:1000 .ssh/authorized_keys
 chmod 600 .ssh/authorized_keys
+
+cd /etc/sudoers.d
+mv 010_pi-nopasswd 010_${NEW_USER}-nopasswd
+sed -i "s/^pi /${NEW_USER} /" 010_${NEW_USER-nopasswd
 
 ## #
 ## # Install xrdp
