@@ -5,7 +5,7 @@
 #
 # rpi-setup.sh - Raspbian first setup script
 #
-# usage: rpi-setup.sh <hostname>
+# usage: rpi-setup.sh <hostname> <user>
 #
 # Copyright (c) 2017 Takeshi Yonezu
 # All Rights Reserved.
@@ -208,7 +208,7 @@ sed -i "s/^pi /${NEW_USER} /" 010_${NEW_USER-nopasswd
 ## #
 ## # Install Go
 ## #
-## VERSION=1.8.1
+## VERSION=1.8.3
 ## OS=linux
 ## ARCH=armv6l
 ## 
