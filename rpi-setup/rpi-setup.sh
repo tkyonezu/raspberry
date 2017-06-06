@@ -21,7 +21,7 @@ error() {
 }
 
 if [ $# -lt 2 ]; then
-  error "Usage: $0 hostname user"
+  error "Usage: $0 <hostname> <user>"
 fi
 
 NEW_HOSTNAME=$1
