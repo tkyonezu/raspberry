@@ -1,0 +1,35 @@
+[ubuntu-jp:2060] Added: jp.archive.ubuntu.com now supports ARM(armel) ports
+https://lists.ubuntu.com/archives/ubuntu-jp/2009-August/002059.html
+
+mysql:x:101:101:MySQL Server,,,:/nonexistent:/bin/false
+/var/lib/mysql mysql:mysql
+
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+
+centos+nginxにowncloudをインストールした。
+http://higherhope.net/?p=2712
+
+CentOS7 ? ownCloud 8インストール & LDAP連携 ? 2015/02/19
+http://www.nightmare-yk.com/?p=1360
+
+Ubuntu 最低限抑えておきたい初期設定 2017/04/02 Qiita
+http://qiita.com/kotarella1110/items/f638822d64a43824dfa4
+
+Can't write into config directory!
+This can usually be fixed by <a href="https://doc.owncloud.org/server/10.0/go.php?to=admin-dir_permissions&quot; target=";_blank" rel="noreferrer&quot;>giving the webserver write access to the config directory</a>.
+
+ownCloud Desktop Client
+Mac: https://download.owncloud.com/desktop/stable/ownCloud-2.3.2.4250.pkg
+Win: https://download.owncloud.com/desktop/stable/ownCloud-2.3.2.6928-setup.exe
+
+https://download.opensuse.org/repositories/isv:/ownCloud:/community/Debian_8.0/all/
+
+https://github.com/owncloud/core
+
+http://download.owncloud.org/download/repositories/10.0.2/Ubuntu_16.04/
+https://download.owncloud.org/community/owncloud-10.0.2.tar.bz2
+
+ownCloud 9/1 Server Administration Manual
+https://doc.owncloud.org/server/latest/admin_manual/installation/source_installation.html#ubuntu-installation-label
+
+https://doc.owncloud.org/server/latest/admin_manual/configuration_server/index.html
