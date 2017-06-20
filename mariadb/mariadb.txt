@@ -1,0 +1,8 @@
+MySQL-5.7 で mysql_secure_installation の自動化が楽になっていた 2016/12/05
+http://qiita.com/MasahitoShinoda/items/9c2d895084b222ac816a
+
+コードで実行！ mysql_secure_installation プロビジョニング 2014/10/24
+http://labs.cybridge.jp/cybridge/development/1312.html
+
+[CentOS] MySQLサーバーのインストールを行うの巻　～mysql_secure_installationを使ってみよう～ 2013/06/25
+https://blog.trippyboy.com/2013/mysql/centos-mysql%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E3%81%AE%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E3%82%92%E8%A1%8C%E3%81%86%E3%81%AE%E5%B7%BB%E3%80%80%EF%BD%9Emysql_secure_installatio/
