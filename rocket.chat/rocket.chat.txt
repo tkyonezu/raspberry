@@ -1,0 +1,11 @@
+/opt/rocket.chat/meteor/scripts
+
+build-dev-bundle-common.sh
+build-mongo-for-dev-bundle.sh
+build-node-for-dev-bundle.sh
+
+build-dev-bundle-common.sh:NODE_VERSION=4.4.7
+build-dev-bundle-common.sh:NPM_VERSION=3.10.2
+build-dev-bundle-common.sh:MONGO_VERSION=3.2.6
+
+build-mongo-for-dev-bundle.sh:MONGO_VERSION="3.2.6"
