@@ -23,12 +23,20 @@ logmsg "Install Docker"
 apt install -y apt-transport-https ca-certificates curl \
   software-properties-common
 
-cat <<EOF >/etc/apt/sources.list.d/docker.list
+# Docker CE for Debian
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+cat <<EOR >/etc/apt-sources.list.d/docker.list
+deb [arch=armhf] https://download.docker.com/linux/debian $(lsb_release -cs) stable
+EOF
+
+# Docker-Engine
+curl -fsSL https://apt.dockerproject.org/gpg | apt-key add -
+
+cat <<EOF >>/etc/apt/sources.list.d/docker.list
 deb [arch=armhf] https://apt.dockerproject.org/repo raspbian-jessie main
 #deb [arch=armhf] https://apt.dockerproject.org/repo debian-stretch main
 EOF
-
-curl -fsSL https://apt.dockerproject.org/gpg | apt-key add -
 
 apt update
 
