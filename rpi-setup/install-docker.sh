@@ -26,7 +26,7 @@ apt install -y apt-transport-https ca-certificates curl \
 # Docker CE for Debian
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
 
-cat <<EOR >/etc/apt-sources.list.d/docker.list
+cat <<EOF >/etc/apt/sources.list.d/docker.list
 deb [arch=armhf] https://download.docker.com/linux/debian $(lsb_release -cs) stable
 EOF
 

@@ -97,8 +97,12 @@ logmsg "Disable Swap"
 swap=$(swapon -s | sed 1d | awk '{ print $1 }')
 
 if [[ "$swap" == "/var/swap" ]]; then
-  dphys-swapfile swapoff
-  insserv -r dphys-swapfile
+  ## # For Debian jessie
+  ## dphys-swapfile swapoff
+  ## insserv -r dphys-swapfile
+  # For Debian stretch
+  systemctl stop dphys-swapfile.service
+  systemctl disable dphys-swapfile.service
 fi
 
 #
