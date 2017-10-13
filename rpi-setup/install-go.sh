@@ -18,7 +18,7 @@ logmsg() {
 #
 # Install Go
 #
-VERSION=1.9
+VERSION=1.9.1
 OS=linux
 ARCH=armv6l
 
