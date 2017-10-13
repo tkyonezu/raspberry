@@ -19,8 +19,20 @@ logmsg() {
 # Install Go
 #
 VERSION=1.9.1
-OS=linux
-ARCH=armv6l
+OS=$(uname -s)
+ARCH=$(uname -m)
+
+case ${OS} in
+  Linux)  OS=linux;;
+  Darwin) OS=darwin;;
+  *) echo "${OS}-${ARCH} does'nt supported yet."; exit 1;;
+esac
+
+case ${ARCH} in
+  x86_64) ARCH=amd64;;
+  armv7l) ARCH=armv6l;;
+  *) echo "${OS}-${ARCH} does'nt supported yet."; exit 1;;
+esac
 
 cd /var/tmp
 
