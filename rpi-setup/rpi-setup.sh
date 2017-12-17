@@ -127,9 +127,12 @@ logmsg "Setup User (${NEW_USER})"
 
 mv /home/pi /home/${NEW_USER}
 
-sed -i "s/^pi/${NEW_USER}/g" /etc/passwd
+sed -i "s/pi/${NEW_USER}/g" /etc/passwd
 sed -i "s/^pi/${NEW_USER}/" /etc/shadow
 sed -i -e "s/^pi:/${NEW_USER}:/" -e "s/:pi/:${NEW_USER}/" /etc/group
+
+# autologin-user should disabled
+# /etc/lightdm/lightdm.conf
 
 cd /home/${NEW_USER}
 mkdir .ssh
