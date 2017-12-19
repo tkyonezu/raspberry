@@ -20,30 +20,34 @@ logmsg() {
 #
 logmsg "Install Docker"
 
+OS=$(uname -s)
+ARCH=$(uname -m)
+
+case ${OS} in
+  Linux)  OS=linux;;
+  Darwin) echo "${OS}/${ARCH} can use Docker for Mac."; exit 1;;
+  *) echo "${OS}-${ARCH} does'nt supported yet."; exit 1;;
+esac
+
+case ${ARCH} in
+  x86_64) DIST=ubuntu;;
+  armv7l) DIST=debian;;
+  *) echo "${OS}-${ARCH} does'nt supported yet."; exit 1;;
+esac
+
 apt install -y apt-transport-https ca-certificates curl \
   software-properties-common
 
-# Docker CE for Debian
-curl -fsSL https://download.docker.com/linux/debian/gpg | sudo apt-key add -
+curl -fsSL https://download.docker.com/linux/${DIST}/gpg | sudo apt-key add -
+
+apt-key fingerprint 0EBFCD88
 
 cat <<EOF >/etc/apt/sources.list.d/docker.list
-deb [arch=armhf] https://download.docker.com/linux/debian $(lsb_release -cs) stable
+deb [arch=amd64] https://download.docker.com/linux/${DIST} $(lsb_release -cs) stable
 EOF
 
 apt update
 
 apt install -y docker-ce
-
-## # Docker-Engine
-## curl -fsSL https://apt.dockerproject.org/gpg | apt-key add -
-## 
-## cat <<EOF >>/etc/apt/sources.list.d/docker.list
-## deb [arch=armhf] https://apt.dockerproject.org/repo raspbian-jessie main
-## #deb [arch=armhf] https://apt.dockerproject.org/repo debian-stretch main
-## EOF
-## 
-## apt update
-## 
-## apt install -y docker-engine
 
 exit 0
