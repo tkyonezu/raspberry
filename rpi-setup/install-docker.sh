@@ -30,8 +30,8 @@ case ${OS} in
 esac
 
 case ${ARCH} in
-  x86_64) DIST=ubuntu;;
-  armv7l) DIST=debian;;
+  x86_64) ARCH=amd64; DIST=ubuntu;;
+  armv7l) ARCH=armhf; DIST=debian;;
   *) echo "${OS}-${ARCH} does'nt supported yet."; exit 1;;
 esac
 
@@ -43,7 +43,7 @@ curl -fsSL https://download.docker.com/linux/${DIST}/gpg | sudo apt-key add -
 apt-key fingerprint 0EBFCD88
 
 cat <<EOF >/etc/apt/sources.list.d/docker.list
-deb [arch=amd64] https://download.docker.com/linux/${DIST} $(lsb_release -cs) stable
+deb [arch=${ARCH}] https://download.docker.com/linux/${DIST} $(lsb_release -cs) stable
 EOF
 
 apt update
