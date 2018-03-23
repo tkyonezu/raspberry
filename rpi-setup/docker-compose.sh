@@ -9,4 +9,4 @@ curl -L https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/d
 
 chmod +x /usr/local/bin/docker-compose
 
-docker-compose --version
+/usr/local/bin/docker-compose --version
