@@ -75,7 +75,7 @@ timedatectl set-timezone Asia/Tokyo
 #
 logmsg "Setup Japanese InputMethod"
 
-apt install ttf-kochi-gothic ttf-kochi-mincho \
+apt install -y ttf-kochi-gothic ttf-kochi-mincho \
   xfonts-intl-japanese xfonts-intl-japanese-big \
   xfonts-kaname
 
