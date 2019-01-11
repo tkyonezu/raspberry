@@ -156,6 +156,8 @@ rpi-update
 #
 logmsg "Update Packages"
 
+apt install -y vim
+
 apt update
 apt upgrade -y
 
