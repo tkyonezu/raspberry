@@ -1,7 +1,7 @@
 #!/bin/bash
 
 MAJOR_VERSION=v3.8
-VERSION=3.8.0
+VERSION=3.8.2
 
 [ -d rootfs ] || mkdir rootfs
 
