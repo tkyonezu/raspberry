@@ -146,10 +146,10 @@ cd /etc/sudoers.d
 mv 010_pi-nopasswd 010_${NEW_USER}-nopasswd
 sed -i "s/^pi /${NEW_USER} /" 010_${NEW_USER}-nopasswd
 
-#
-# Update Firmware
-#
-rpi-update
+## #
+## # Update Firmware
+## #
+## rpi-update
 
 #
 # Upgrade Packages
