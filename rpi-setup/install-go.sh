@@ -43,8 +43,7 @@ tar -C /usr/local -xzf go$VERSION.$OS-$ARCH.tar.gz
 rm go$VERSION.$OS-$ARCH.tar.gz
 
 cat >>~/.bashrc <<EOF
-## Go 1.9 or later GOPATH default set to $HOME/go
-## export GOPATH=/usr/local
+export GOPATH=\${HOME}/go
 export PATH=\$PATH:/usr/local/go/bin
 EOF
 
