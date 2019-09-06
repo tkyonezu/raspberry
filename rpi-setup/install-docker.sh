@@ -49,6 +49,6 @@ EOF
 
 apt update
 
-apt install -y docker-ce
+apt install -y docker-ce docker-ce-cli containerd.io
 
 exit 0
