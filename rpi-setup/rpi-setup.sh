@@ -70,16 +70,16 @@ timedatectl set-timezone Asia/Tokyo
 
 ## ln -s /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 
-#
-# Japanese InputMethod
-#
-logmsg "Setup Japanese InputMethod"
-
-apt install -y ttf-kochi-gothic ttf-kochi-mincho \
-  xfonts-intl-japanese xfonts-intl-japanese-big \
-  xfonts-kaname
-
-apt install -y uim uim-anthy
+## #
+## # Japanese InputMethod
+## #
+## logmsg "Setup Japanese InputMethod"
+## 
+## apt install -y ttf-kochi-gothic ttf-kochi-mincho \
+##   xfonts-intl-japanese xfonts-intl-japanese-big \
+##   xfonts-kaname
+## 
+## apt install -y uim uim-anthy
 
 #
 # Change WiFi Country
