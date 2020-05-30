@@ -29,10 +29,12 @@ case ${OS} in
   *) echo "${OS}-${ARCH} does'nt supported yet."; exit 1;;
 esac
 
+DIST=$(cat /etc/os-release | grep ^ID= | sed 's/^ID=//')
+
 case ${ARCH} in
-  x86_64) ARCH=amd64; DIST=ubuntu;;
-  armv7l) ARCH=armhf; DIST=raspbian;;
-# armv7l) ARCH=armhf; DIST=debian;;
+  x86_64) ARCH=amd64;
+  armv7l) ARCH=armhf;
+  aarch64) ARCH=arm64;
   *) echo "${OS}-${ARCH} does'nt supported yet."; exit 1;;
 esac
 
