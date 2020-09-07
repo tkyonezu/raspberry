@@ -1,7 +1,12 @@
 #!/bin/bash
 
 VERSION=3.12.0
+ARC=armhf
 
-sudo docker build -t armhf/alpine:${VERSION} .
+if [ "$(uname -m)" = "aarch64" ]; then
+  ARC=aarch64
+fi
+
+sudo docker build -t ${ARC}/alpine:${VERSION} --build-arg ARC=${ARC} .
 
 exit 0

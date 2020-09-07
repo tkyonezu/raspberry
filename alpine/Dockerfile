@@ -1,4 +1,6 @@
-FROM armhf/alpine
+ARG ARC=armhf
+
+FROM ${ARC}/alpine
 
 ADD rootfs /
 

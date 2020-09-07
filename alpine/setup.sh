@@ -4,7 +4,7 @@ MAJOR_VERSION=v3.12
 VERSION=3.12.0
 ARC=armhf
 
-if [ $(uname -m)" = "aarch64" ]; then
+if [ "$(uname -m)" = "aarch64" ]; then
   ARC=aarch64
 fi
 
