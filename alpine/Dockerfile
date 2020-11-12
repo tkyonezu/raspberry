@@ -1,10 +1,8 @@
-ARG ARC=armhf
-
-FROM ${ARC}/alpine
+FROM scratch
 
 ADD rootfs /
 
 RUN apk update \
  && apk upgrade
 
-CMD /bin/sh
+CMD ["/bin/sh"]

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 MAJOR_VERSION=v3.12
-VERSION=3.12.0
+VERSION=3.12.1
 ARC=armhf
 
 if [ "$(uname -m)" = "aarch64" ]; then
