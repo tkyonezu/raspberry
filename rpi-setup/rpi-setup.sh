@@ -156,9 +156,9 @@ sed -i "s/^pi /${NEW_USER} /" 010_${NEW_USER}-nopasswd
 #
 logmsg "Update Packages"
 
-apt install -y vim bc
-
 apt update
 apt upgrade -y
+
+apt install -y vim bc lz4
 
 exit 0
