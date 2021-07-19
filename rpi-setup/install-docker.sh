@@ -1,13 +1,13 @@
 #!/bin/bash
 
 #-----------------------------------------------------------------------
-# Raspberry Pi 3
+# Raspberry Pi 3B, 3B+, 4B
 #
 # install-docker.sh - Install Docker-Engine
 #
 # usage: install-docker.sh
 #
-# Copyright (c) 2017 Takeshi Yonezu
+# Copyright (c) 2017-2021 Takeshi Yonezu
 # All Rights Reserved.
 #-----------------------------------------------------------------------
 
@@ -38,15 +38,13 @@ case ${ARCH} in
   *) echo "${OS}-${ARCH} does'nt supported yet."; exit 1;;
 esac
 
-apt install -y apt-transport-https ca-certificates curl \
-  software-properties-common
+apt install -y apt-transport-https ca-certificates curl gnupg lsb-release
 
-curl -fsSL https://download.docker.com/linux/${DIST}/gpg | sudo apt-key add -
-
-apt-key fingerprint 0EBFCD88
+curl -fsSL https://download.docker.com/linux/${ID}/gpg |
+  sudo gpg --deamor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
 cat <<EOF >/etc/apt/sources.list.d/docker.list
-deb [arch=${ARCH}] https://download.docker.com/linux/${DIST} $(lsb_release -cs) stable
+deb [arch=${ARCH} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/${DIST} $(lsb_release -cs) stable
 EOF
 
 apt update
