@@ -40,7 +40,11 @@ esac
 
 apt install -y apt-transport-https ca-certificates curl gnupg lsb-release
 
-curl -fsSL https://download.docker.com/linux/${ID}/gpg |
+if [ -f /usr/share/keyrings/docker-archive-keyring.gpg ]; then
+  rm /usr/share/keyrings/docker-archive-keyring.gpg
+fi
+
+curl -fsSL https://download.docker.com/linux/${DIST}/gpg |
   sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
 cat <<EOF >/etc/apt/sources.list.d/docker.list
