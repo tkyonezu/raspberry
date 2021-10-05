@@ -146,6 +146,10 @@ cd /etc/sudoers.d
 mv 010_pi-nopasswd 010_${NEW_USER}-nopasswd
 sed -i "s/^pi /${NEW_USER} /" 010_${NEW_USER}-nopasswd
 
+cd /etc
+sed -i "s/^pi/${NEW_USER}/" subuid
+sed -i "s/^pi/${NEW_USER}/" subgid
+
 ## #
 ## # Update Firmware
 ## #
