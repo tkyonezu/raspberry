@@ -37,13 +37,13 @@ CURRENT_HOSTNAME=$(cat /etc/hostname | tr -d " \t\n\r")
 sed -i "s/127.0.1.1.*${CURRENT_HOSTNAME}/127.0.1.1\t${NEW_HOSTNAME}/g" /etc/hosts
 echo ${NEW_HOSTNAME} >/etc/hostname
 
-# Change Keyboard
-logmsg "Change Keyboard (Japanese)"
-
-sed -i -e 's/^XKBMODEL=.*/XKBMODEL="pc105"/' \
-  -e 's/^XKBLAYOUT=.*/XKBLAYOUT="jp"/' \
-  -e 's/^XKBOPTIONS=.*/XKBOPTIONS="terminate:ctrl_alt_bksp"/' \
-  /etc/default/keyboard
+## # Change Keyboard
+## logmsg "Change Keyboard (Japanese)"
+## 
+## sed -i -e 's/^XKBMODEL=.*/XKBMODEL="pc105"/' \
+##   -e 's/^XKBLAYOUT=.*/XKBLAYOUT="jp"/' \
+##   -e 's/^XKBOPTIONS=.*/XKBOPTIONS="terminate:ctrl_alt_bksp"/' \
+##   /etc/default/keyboard
 
 #
 # Change Locale
@@ -81,13 +81,13 @@ timedatectl set-timezone Asia/Tokyo
 ## 
 ## apt install -y uim uim-anthy
 
-#
-# Change WiFi Country
-#
-logmsg "Change WiFi Country (Japan)"
-
-sed -i 's/^country=.*/country=JP/' \
-  /etc/wpa_supplicant/wpa_supplicant.conf
+## #
+## # Change WiFi Country
+## #
+## logmsg "Change WiFi Country (Japan)"
+## 
+## sed -i 's/^country=.*/country=JP/' \
+##   /etc/wpa_supplicant/wpa_supplicant.conf
 
 #
 # Disable Swap
@@ -105,21 +105,22 @@ if [[ "$swap" == "/var/swap" ]]; then
   systemctl disable dphys-swapfile.service
 fi
 
-#
-# Chenage NTP server
-#
-logmsg "Change NTP server"
+## #
+## # Chenage NTP server
+## #
+## logmsg "Change NTP server"
+## 
+## sed -i -e '/^server 3/apool ntp.nict.jp iburst' \
+##   -e 's/^server [0-9]/## &/' /etc/ntp.conf
 
-sed -i -e '/^server 3/apool ntp.nict.jp iburst' \
-  -e 's/^server [0-9]/## &/' /etc/ntp.conf
+## #
+## # Enable ssh
+## #
+## logmsg "Enable ssh daemon"
+## 
+## systemctl enable ssh.service
+## systemctl start ssh.service
 
-#
-# Enable ssh
-#
-logmsg "Enable ssh daemon"
-
-systemctl enable ssh.service
-systemctl start ssh.service
 #
 # Setup User
 #
