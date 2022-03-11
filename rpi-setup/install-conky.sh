@@ -190,6 +190,10 @@ if [ ! -f autostart ]; then
 @xscreensaver -no-splash
 @conky -c /home/pi/.config/.conkyrc -p 5
 EOF
+else
+  if ! grep -q conky autostart 2>/dev/null; then
+    sed -i '$a@conky -c /home/pi/.config/.conkyrc -p 5' autostart
+  fi
 fi
 
 logmsg "Please log in again to start conky."
